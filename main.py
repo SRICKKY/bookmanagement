@@ -1,6 +1,7 @@
 from fastapi import FastAPI
+from routers import books_router, recommendation_router, summary_router
 
-app = FastAPI()
+app = FastAPI(title="Book Management API service")
 
 
 @app.get("/")
