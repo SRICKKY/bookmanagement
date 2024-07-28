@@ -3,10 +3,10 @@ uvicorn
 sqlalchemy[asyncio]
 asyncpg
 pydantic
-torch
-transformers
-pandas
-scikit-learn
+# torch
+# transformers
+# pandas
+# scikit-learn
 passlib
 PyJWT
 jose
