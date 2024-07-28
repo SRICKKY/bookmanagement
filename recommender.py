@@ -20,8 +20,8 @@ class BookRecommender(nn.Module):
 
 # Load and inspect data
 try:
-    books_df = pd.read_csv('books.csv', on_bad_lines='warn')
-    print(books_df.columns)  # Print column names to verify
+    books_df = pd.read_csv('books.csv', on_bad_lines='skip')
+    # print(books_df.columns)  # Print column names to verify
 except pd.errors.ParserError as e:
     print(f"Error reading CSV file: {e}")
     raise
@@ -69,6 +69,6 @@ for epoch in range(epochs):
     # print(f"Epoch {epoch+1}/{epochs}, Loss: {loss.item()}")
 
 # Save the trained model
-model_path = 'book_recommender_model.pth'
-torch.save(model.state_dict(), model_path)
-print(f"Model saved to {model_path}")
+# model_path = 'book_recommender_model.pth'
+# torch.save(model.state_dict(), model_path)
+# print(f"Model saved to {model_path}")

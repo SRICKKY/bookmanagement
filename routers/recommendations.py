@@ -11,7 +11,7 @@ recommendation_router = router = APIRouter()
 
 # Load the trained model
 model = BookRecommender()
-model.load_state_dict(torch.load('book_recommender_model.pth'))
+model.load_state_dict(torch.load('book_recommender_model.pth', weights_only=False))
 model.eval()
 
 # Define the recommendation endpoint

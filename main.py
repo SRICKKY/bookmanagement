@@ -8,6 +8,10 @@ app = FastAPI(title="Book Management API service")
 async def read_main():
     return {"msg": "Hello World"}
 
+app.include_router(books_router, prefix="/books", tags=["Endpoints"])
+app.include_router(recommendation_router)
+app.include_router(summary_router)
+
 
 if __name__ == '__main__':
     import uvicorn
