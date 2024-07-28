@@ -1,6 +1,7 @@
 from typing import Optional
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, EmailStr
+from datetime import datetime
 
 
 class BookBase(BaseModel):
@@ -33,8 +34,11 @@ class ReviewBase(BaseModel):
 
     model_config = ConfigDict(from_attributes=True)
 
-class ReviewCreate(ReviewBase):
-    pass
+class ReviewCreate(BaseModel):
+    review_text: str
+    rating: int
+
+    model_config = ConfigDict(from_attributes=True)
 
 class Review(ReviewBase):
     id: int
@@ -48,3 +52,30 @@ class BookSummary(BaseModel):
     average_rating: float
 
     model_config = ConfigDict(from_attributes=True)
+
+
+class UserBase(BaseModel):
+    email: EmailStr
+
+# Properties to receive via API on creation
+class UserCreate(UserBase):
+    password: str
+
+# Properties to return via API
+class UserRead(UserBase):
+    id: int
+    created_at: datetime
+
+    model_config = ConfigDict(from_attributes=True)
+
+# Properties to receive via API on login
+class UserLogin(BaseModel):
+    email: EmailStr
+    password: str
+
+class Token(BaseModel):
+    access_token: str
+    token_type: str
+
+class TokenData(BaseModel):
+    email: Optional[str] = None

@@ -1,5 +1,6 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, func
+from core.security import verify_password
 
 import llama3_service
 import models
@@ -44,8 +45,8 @@ async def delete_book(db: AsyncSession, book_id: int):
         await db.commit()
     return db_book
 
-async def create_review(db: AsyncSession, book_id: int, review: schemas.ReviewCreate):
-    db_review = models.Review(**review.model_dump(), book_id=book_id)
+async def create_review(db: AsyncSession, book_id: int, review: schemas.ReviewCreate, current_user: schemas.UserRead):
+    db_review = models.Review(**review.model_dump(), book_id=book_id, user_id=current_user.id)
     db.add(db_review)
     await db.commit()
     await db.refresh(db_review)
@@ -72,3 +73,13 @@ async def get_book_summary(db: AsyncSession, book_id: int):
             "average_rating": avg_rating
         }
     return None
+
+async def get_user_by_email(db: AsyncSession, email: str):
+    result = await db.execute(select(models.User).filter(models.User.email == email))
+    return result.scalar_one_or_none()
+
+async def authenticate_user(db: AsyncSession, email: str, password: str):
+    user = await get_user_by_email(db, email)
+    if not user or not verify_password(password, user.hashed_password):
+        return False
+    return user
