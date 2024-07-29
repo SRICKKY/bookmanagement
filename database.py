@@ -2,7 +2,7 @@ from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
 from sqlalchemy.orm import DeclarativeBase
 
 # SQLALCHEMY 
-engine = create_async_engine("postgresql+asyncpg://bookmgmt_owner:ZJem9B7jsHAS@ep-autumn-mouse-a1sg9k1r.ap-southeast-1.aws.neon.tech/bookmgmt", echo=False)
+engine = create_async_engine("postgresql+asyncpg://bookmgmt_owner:ZJem9B7jsHAS@ep-autumn-mouse-a1sg9k1r.ap-southeast-1.aws.neon.tech/bookmanagementdb", echo=False)
 SessionLocal = async_sessionmaker(engine)
 
 def get_session_local():
