@@ -1,6 +1,6 @@
 from typing import Optional
 
-from pydantic import BaseModel, ConfigDict, EmailStr
+from pydantic import BaseModel, ConfigDict, EmailStr, Field
 from datetime import datetime
 
 
@@ -36,7 +36,7 @@ class ReviewBase(BaseModel):
 
 class ReviewCreate(BaseModel):
     review_text: str
-    rating: int
+    rating: int = Field(..., ge=1, le=5)
 
     model_config = ConfigDict(from_attributes=True)
 

@@ -11,9 +11,10 @@
 ```pip install -r requirements.txt```
 
 - Run the localserver & start using the API's
-```python main.py```
+```uvicorn main:app --reload```
 
 
 ### Deployment
 
 - Vercel Serverless Function is crashing for some reason.
+
