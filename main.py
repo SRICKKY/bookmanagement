@@ -27,7 +27,7 @@ app.add_middleware(
 
 @app.get("/")
 async def read_main():
-    return {"msg": "Hello World"}
+    return {"message": "Hello World"}
 
 app.include_router(auth_router, tags=["Authentication"])
 app.include_router(books_router, prefix="/books", tags=["Endpoints"])

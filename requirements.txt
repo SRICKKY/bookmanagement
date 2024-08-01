@@ -1,12 +1,18 @@
-fastapi
-uvicorn
-sqlalchemy[asyncio]
-asyncpg
-pydantic
-# torch
-# transformers
-# pandas
-# scikit-learn
-passlib
-PyJWT
-jose
+aiosqlite==0.20.0
+alembic==1.13.2
+asyncpg==0.29.0
+bcrypt==4.2.0
+fastapi==0.111.1
+numpy==2.0.1
+pandas==2.2.2
+passlib==1.7.4
+PyJWT==2.8.0
+pytest==8.3.2
+pytest-asyncio==0.23.8
+scikit-learn==1.5.1
+scipy==1.14.0
+SQLAlchemy==2.0.31
+torch==2.4.0
+transformers==4.43.2
+uvicorn==0.30.3
+websockets==12.0

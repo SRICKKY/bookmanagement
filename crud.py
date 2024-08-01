@@ -1,6 +1,6 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, func
-from core.security import verify_password
+from core.security import verify_password, get_password_hash
 
 import llama3_service
 import models
@@ -69,7 +69,7 @@ async def get_book_summary(db: AsyncSession, book_id: int):
         avg_rating = await db.execute(select(func.avg(models.Review.rating)).filter(models.Review.book_id == book_id))
         avg_rating = avg_rating.scalar() or 0
         return {
-            "summary": db_book.generated_summary or "No summary available.",
+            "summary": db_book.summary or "No summary available.",
             "average_rating": avg_rating
         }
     return None
@@ -83,3 +83,10 @@ async def authenticate_user(db: AsyncSession, email: str, password: str):
     if not user or not verify_password(password, user.hashed_password):
         return False
     return user
+
+async def create_user(db: AsyncSession, user_data: schemas.UserCreate):
+    new_user = models.User(email=user_data.email, hashed_password=get_password_hash(user_data.password))
+    db.add(new_user)
+    await db.commit()
+    await db.refresh(new_user)
+    return new_user
