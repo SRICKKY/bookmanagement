@@ -1,12 +1,8 @@
-from fastapi import APIRouter
-from pydantic import BaseModel
 import httpx
+from fastapi import APIRouter
 
 summary_router = router = APIRouter()
 
-# Define the request model for generating summaries
-class SummaryRequest(BaseModel):
-    content: str
 
 LLAMA3_API_URL = "http://localhost:11434/api/generate"
 
@@ -21,7 +17,7 @@ async def generate_summary(text: str) -> str:
             response = await client.post(LLAMA3_API_URL, json=payload)
             response.raise_for_status()
             result = response.json()
-            return result.get("summary", "No summary available.")
+            return result.get("result", "No summary available.")
         except httpx.HTTPStatusError as e:
             print(f"HTTP error occurred: {e}")
             return "Error HTTPStatusError."
@@ -32,8 +28,3 @@ async def generate_summary(text: str) -> str:
             print(f"An unexpected error occurred: {e}")
             return "Error Exception"
 
-# Define the endpoint for generating summaries
-@router.post("/generate-summary")
-async def generate_summary_endpoint(request: SummaryRequest):
-    summary = await generate_summary(request.content)
-    return {"summary": summary}

@@ -1,10 +1,10 @@
+from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select, func
-from core.security import verify_password, get_password_hash
 
 import llama3_service
 import models
 import schemas
+from core.security import get_password_hash, verify_password
 
 
 async def create_book(db: AsyncSession, book: schemas.BookCreate):
@@ -14,7 +14,7 @@ async def create_book(db: AsyncSession, book: schemas.BookCreate):
     await db.refresh(db_book)
 
     # Generate and save the summary
-    generated_summary = await llama3_service.generate_summary(book.summary)
+    generated_summary = llama3_service.generate_summary(book.summary)
     db_book.generated_summary = generated_summary
     await db.commit()
     await db.refresh(db_book)
@@ -52,7 +52,7 @@ async def create_review(db: AsyncSession, book_id: int, review: schemas.ReviewCr
     await db.refresh(db_review)
 
     # Generate and save the review summary
-    generated_summary = await llama3_service.generate_summary(review.review_text)
+    generated_summary = llama3_service.generate_summary(review.review_text)
     db_review.generated_summary = generated_summary
     await db.commit()
     await db.refresh(db_review)
